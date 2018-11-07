@@ -1,0 +1,11 @@
+C:\Users\JHG\Work\Training\SupportBank\SupportBank\SupportBank\bin\Debug\netcoreapp2.1\SupportBank.deps.json
+C:\Users\JHG\Work\Training\SupportBank\SupportBank\SupportBank\bin\Debug\netcoreapp2.1\SupportBank.runtimeconfig.json
+C:\Users\JHG\Work\Training\SupportBank\SupportBank\SupportBank\bin\Debug\netcoreapp2.1\SupportBank.runtimeconfig.dev.json
+C:\Users\JHG\Work\Training\SupportBank\SupportBank\SupportBank\bin\Debug\netcoreapp2.1\SupportBank.dll
+C:\Users\JHG\Work\Training\SupportBank\SupportBank\SupportBank\bin\Debug\netcoreapp2.1\SupportBank.pdb
+C:\Users\JHG\Work\Training\SupportBank\SupportBank\SupportBank\obj\Debug\netcoreapp2.1\SupportBank.csprojAssemblyReference.cache
+C:\Users\JHG\Work\Training\SupportBank\SupportBank\SupportBank\obj\Debug\netcoreapp2.1\SupportBank.csproj.CoreCompileInputs.cache
+C:\Users\JHG\Work\Training\SupportBank\SupportBank\SupportBank\obj\Debug\netcoreapp2.1\SupportBank.AssemblyInfoInputs.cache
+C:\Users\JHG\Work\Training\SupportBank\SupportBank\SupportBank\obj\Debug\netcoreapp2.1\SupportBank.AssemblyInfo.cs
+C:\Users\JHG\Work\Training\SupportBank\SupportBank\SupportBank\obj\Debug\netcoreapp2.1\SupportBank.dll
+C:\Users\JHG\Work\Training\SupportBank\SupportBank\SupportBank\obj\Debug\netcoreapp2.1\SupportBank.pdb
