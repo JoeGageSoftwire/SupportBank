@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using NLog;
@@ -11,9 +12,9 @@ namespace SupportBank
     {
         private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
 
-        public List<Transaction> GetTransactionsCsv()
+        public List<Transaction> GetTransactionsCsv(string filepath)
         {
-            var data = GetDataCsv();
+            var data = GetDataCsv(filepath);
 
             logger.Info("Read in data from CSV file.");
             logger.Info("Started parsing transaction data.");
@@ -41,21 +42,21 @@ namespace SupportBank
             return transactions;
         }
 
-        private static List<string> GetDataCsv()
+        private static List<string> GetDataCsv(string filepath)
         {
-            return System.IO.File.ReadAllLines(@"C:\Users\JHG\Work\Training\SupportBank\Transactions2014.csv").ToList();
+            return System.IO.File.ReadAllLines(filepath).ToList();
         }
 
-        public List<Transaction> GetTransactionsJson()
+        public List<Transaction> GetTransactionsJson(string filepath)
         {
-            var data = GetDataJson();
+            var data = GetDataJson(filepath);
             var transactions = JsonConvert.DeserializeObject<List<Transaction>>(data);
             return transactions;
         }
 
-        private static string GetDataJson()
+        private static string GetDataJson(string filepath)
         {
-            return System.IO.File.ReadAllText(@"C:\Users\JHG\Work\Training\SupportBank\Transactions2013.json");
+            return System.IO.File.ReadAllText(filepath);
         }
     }
 }

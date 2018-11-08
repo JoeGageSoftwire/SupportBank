@@ -24,8 +24,20 @@ namespace SupportBank
             var logger = LogManager.GetCurrentClassLogger();
             logger.Info("Program started running.");
 
-            var getData = new DataReader();
-            var transactions = getData.GetTransactionsJson();
+            //2013 data: C:\Users\JHG\Work\Training\SupportBank\Transactions2013.json
+            //2014 data: C:\Users\JHG\Work\Training\SupportBank\Transactions2014.csv
+            //2015 data: C:\Users\JHG\Work\Training\SupportBank\DodgyTransactions2015.csv
+
+            var import = new ImportFile();
+            var transactions = new List<Transaction>();
+            for (;;)
+            {
+                transactions = import.AskForFile();
+                if (transactions.Count != 0)
+                {
+                    break;
+                }
+            }
 
             var names = new List<string>();
             foreach (Transaction entry in transactions)
