@@ -24,33 +24,8 @@ namespace SupportBank
             var logger = LogManager.GetCurrentClassLogger();
             logger.Info("Program started running.");
 
-            var data = GetTransactions();
-            logger.Info("Data read from file.");
-            var transactions = new List<Transaction>();
-
-            data.RemoveAt(0);
-
-            logger.Info("Started to parse transactions.");
-
-            for (var index = 0; index < data.Count; index++)
-            {
-                var line = data[index];
-                var lineArray = line.Split(",");
-                try
-                {
-                    var amount = double.Parse(lineArray[4]);
-                }
-                catch
-                {
-                    logger.Error($"An entry in the 'Amount' column (row number: {index + 2}) could not be parsed as a double.");
-                    continue;
-                }
-
-                var transaction = new Transaction(lineArray[0], lineArray[1], lineArray[2], lineArray[3], double.Parse(lineArray[4]));
-                transactions.Add(transaction);
-            }
-
-            logger.Info("Completed parsing transactions.");
+            var getData = new DataReader();
+            var transactions = getData.GetTransactionsJson();
 
             var names = new List<string>();
             foreach (Transaction entry in transactions)
@@ -105,11 +80,6 @@ namespace SupportBank
 
             var ui = new UserInterface(accounts, transactions);
             ui.Start();
-        }
-
-        private static List<string> GetTransactions()
-        {
-            return System.IO.File.ReadAllLines(@"C:\Users\JHG\Work\Training\SupportBank\DodgyTransactions2015.csv").ToList();
         }
     }
 }
