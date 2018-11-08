@@ -113,10 +113,12 @@ namespace SupportBank
             {
                 string input = Console.ReadLine();
                 Console.WriteLine();
-
                 logger.Info($"User input '{input}'.");
 
-                if (input.ToLower().Trim() == "list all")
+                string command = input.Trim().ToLower();
+                logger.Info($"Input parsed as '{command}'.");
+
+                if (command == "list all")
                 {
                     logger.Info("Input recognized as 'List All'.");
 
@@ -128,11 +130,11 @@ namespace SupportBank
 
                     logger.Info("All account balances displayed.");
                 }
-                else if (input.ToLower().StartsWith("list "))
+                else if (command.StartsWith("list "))
                 {
                     logger.Info("Input recognized as 'List [Account]'.");
 
-                    string accountName = input.Remove(0, 4).Trim().ToLower();
+                    string accountName = command.Remove(0, 4).Trim();
                     List<string> namesLower = namesUnique.ConvertAll(s => s.ToLower());
 
                     if (namesLower.Contains(accountName))
@@ -154,7 +156,7 @@ namespace SupportBank
                         Console.WriteLine();
                     }
                 }
-                else if (input.ToLower() == "exit")
+                else if (command == "exit")
                 {
                     logger.Info("Program terminated.");
                     break;
