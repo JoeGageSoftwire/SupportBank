@@ -132,7 +132,7 @@ namespace SupportBank
                 {
                     logger.Info("Input recognized as 'List [Account]'.");
 
-                    string accountName = input.Remove(0, 4).Trim();
+                    string accountName = input.Remove(0, 4).Trim().ToLower();
                     List<string> namesLower = namesUnique.ConvertAll(s => s.ToLower());
 
                     if (namesLower.Contains(accountName))
