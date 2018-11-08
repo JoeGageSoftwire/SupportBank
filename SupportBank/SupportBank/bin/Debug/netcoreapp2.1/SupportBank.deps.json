@@ -1,14 +1,25 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+    "signature": "3b93e6f563c35bbf0d675729c57ab22634ad8ab4"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.1": {
       "SupportBank/1.0.0": {
+        "dependencies": {
+          "NLog": "4.5.11"
+        },
         "runtime": {
           "SupportBank.dll": {}
+        }
+      },
+      "NLog/4.5.11": {
+        "runtime": {
+          "lib/netstandard2.0/NLog.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.5.11.8645"
+          }
         }
       }
     }
@@ -18,6 +29,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "NLog/4.5.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7TI+dYvEIOcCN6fjr3yjMN5AtPBSbHNxKGmn/5rkqbBk81MGsnQBkParoGOidibDIe3dwThJJndxl7O3zmd3rA==",
+      "path": "nlog/4.5.11",
+      "hashPath": "nlog.4.5.11.nupkg.sha512"
     }
   }
 }

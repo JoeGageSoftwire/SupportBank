@@ -1,25 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
+using NLog;
+using NLog.Config;
+using NLog.LayoutRenderers;
+using NLog.Targets;
 
 namespace SupportBank
 {
     class Program
     {
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
+
         static void Main(string[] args)
         {
+            var config = new LoggingConfiguration();
+            var target = new FileTarget { FileName = @"C:\Work\Logs\SupportBank.log", Layout = @"${longdate} ${level} - ${logger}: ${message}" };
+            config.AddTarget("File Logger", target);
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, target));
+            LogManager.Configuration = config;
+
+            var logger = LogManager.GetCurrentClassLogger();
+            logger.Info("Program started running.");
+
             List<string> data = GetTransactions();
+            logger.Info("Data read from file.");
             List<Transaction> transactions = new List<Transaction>();
 
             data.RemoveAt(0);
 
-            foreach (string line in data)
+            logger.Info("Started to parse transactions.");
+
+            for (var index = 0; index < data.Count; index++)
             {
+                string line = data[index];
                 string[] lineArray = line.Split(",");
+                try
+                {
+                    double amount = double.Parse(lineArray[4]);
+                }
+                catch
+                {
+                    logger.Error($"An entry in the 'Amount' column (row number: {index + 2}) could not be parsed as a double.");
+                    continue;
+                }
+
                 Transaction transaction = new Transaction(lineArray[0], lineArray[1], lineArray[2], lineArray[3], double.Parse(lineArray[4]));
                 transactions.Add(transaction);
             }
+
+            logger.Info("Completed parsing transactions.");
 
             List<string> names = new List<string>();
             foreach (Transaction entry in transactions)
@@ -30,12 +62,16 @@ namespace SupportBank
 
             List<string> namesUnique = names.Distinct().ToList();
 
+            logger.Info("Compiled list of account names.");
+
             List<Account> accounts = new List<Account>();
             foreach (string name in namesUnique)
             {
                 var account = new Account(name);
                 accounts.Add(account);
             }
+
+            logger.Info("Created empty accounts.");
 
             foreach (Transaction entry in transactions)
             {
@@ -66,24 +102,36 @@ namespace SupportBank
                 receiverAccount.balance += transactionAmount;
             }
 
+            logger.Info("Account balances calculated.");
+
             Console.WriteLine("Please type 'List All' to display all accounts and balances or 'List [Account]' to display all transactions associated with the given account. Type 'Exit' to exit.");
             Console.WriteLine();
+
+            logger.Info("User prompted for input.");
 
             for (;;)
             {
                 string input = Console.ReadLine();
                 Console.WriteLine();
 
+                logger.Info($"User input '{input}'.");
+
                 if (input.ToLower().Trim() == "list all")
                 {
-                    for (int i = 0; i < accounts.Count; i++)
+                    logger.Info("Input recognized as 'List All'.");
+
+                    foreach (Account account in accounts)
                     {
-                        Console.WriteLine($"{accounts[i].ownerName}'s balance is {accounts[i].balance}");
+                        Console.WriteLine($"{account.ownerName}'s balance is {account.balance}");
                     }
                     Console.WriteLine();
+
+                    logger.Info("All account balances displayed.");
                 }
                 else if (input.ToLower().StartsWith("list "))
                 {
+                    logger.Info("Input recognized as 'List [Account]'.");
+
                     string accountName = input.Remove(0, 4).Trim();
                     List<string> namesLower = namesUnique.ConvertAll(s => s.ToLower());
 
@@ -95,19 +143,26 @@ namespace SupportBank
 
                         ConsoleOutputter outputter = new ConsoleOutputter();
                         outputter.WriteAllTransactions(transactionsFrom, transactionsTo);
+
+                        logger.Info("All transactions for [Account] displayed.");
                     }
                     else
                     {
-                        Console.WriteLine("Account name not recognized.");
+                        logger.Info("Input [Account] not recognized.");
+
+                        Console.WriteLine("Account name not recognized. Type 'List All' to see all accounts.");
                         Console.WriteLine();
                     }
                 }
                 else if (input.ToLower() == "exit")
                 {
+                    logger.Info("Program terminated.");
                     break;
                 }
                 else
                 {
+                    logger.Info("Input unrecognized.");
+
                     Console.WriteLine("Command not recognized. Please type 'List All' to display all accounts and balances or 'List [Account]' to display all transactions associated with the given account. Type 'Exit' to exit.");
                     Console.WriteLine();
                 }
@@ -116,7 +171,7 @@ namespace SupportBank
 
         private static List<string> GetTransactions()
         {
-            return System.IO.File.ReadAllLines(@"C:\Users\JHG\Work\Training\SupportBank\Transactions2014.csv").ToList();
+            return System.IO.File.ReadAllLines(@"C:\Users\JHG\Work\Training\SupportBank\DodgyTransactions2015.csv").ToList();
         }
     }
 
